@@ -144,3 +144,8 @@ interval=1
 align=right
 #min_width=            Thursday, 30 September 2017
 ```
+## Restart i3wm type:
+
+```shell
+i3-msg restart
+```
