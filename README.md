@@ -5,7 +5,7 @@ This installer can help you to install it in you Linux Systems
 ![Kali i3-gaps](./b.png)
 
 
-## SETUP
+## SETUP 01
 Clone this repository and then just type:
 
 ```shell
@@ -26,3 +26,121 @@ feh --bg-scale background.jpg
 If You want to see all your applications like Firefox and others use :
 `Win+d`
 
+## SETUP 02
+Open your i3 config:
+```shell
+nano ~/.config/i3/config
+```
+
+Find the bar { ... } block and replace/update it to:
+```shell
+bar {
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+        i3bar_command i3bar -t
+        position top
+        height 26
+        font pango:JetBrains Mono 10
+        colors {
+            statusline #EEEEEE
+            background #1C1D2B88
+            focused_workspace #282A3E88 #282A3E88 #FFFFFF
+            statusline #E6FFF5
+        }
+}
+```
+
+## SETUP 03
+If have any error type `nano ~/.config/i3/i3blocks.conf` and past this:
+```shell
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/share/i3blocks/$BLOCK_NAME
+separator_block_width=30
+separator=false
+markup=none
+
+# CPU usage
+#
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+label= CPU
+command=top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4"%"}'
+interval=5
+min_width=CPU: 100.00%
+separator=true
+
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+label= RAM
+command=free -h | awk '/^Mem:/ {print $3}'
+separator=true
+interval=5
+
+# Disk usage
+#
+# The directory defaults to $HOME if the instance is not specified.
+# The script may be called with a optional argument to set the alert
+# (defaults to 10 for 10%).
+[disk]
+label= Disk
+command=df -h / | awk 'NR==2 {print $3}'
+instance=/mnt/data
+interval=30
+separator=true
+[bandwidth]
+instance=eth0
+command=cat /proc/net/dev | awk 'NR>2 {rx+=$2; tx+=$10} END {printf "IN %.0fK OUT %.0fK", rx/1024, tx/1024}'
+label=
+interval=3
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+[iface]
+instance=tun0
+command=hostname -I | awk '{print $1}'
+color=#3BB92D
+label=
+interval=10
+separator=true
+
+# Battery indicator
+#
+# The battery instance defaults to 0.
+#[battery]
+#label=BAT
+#label=⚡
+#instance=1
+#interval=30
+
+# Temperature
+#
+# Support multiple chips, though lm-sensors.
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+#[temperature]
+#label=TEMP
+#interval=10
+
+# Date Time
+#
+[time]
+#color=#9FE697
+label=  
+command=date '+%A, %d %B %Y %H:%M:%S '
+interval=1
+align=right
+#min_width=            Thursday, 30 September 2017
+```
